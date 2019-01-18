@@ -6,15 +6,16 @@ import java.util.Random;
 
 public class Agent {
 public char[][] Map = new char[5][11];
+public char[][] PolicyMap = new char[5][11];
 int currentX;
 int currentY;
 double gamma = 0.1;
 public char[][]Policy = new char[5][11];
 public int[][] Reward = new int[5][11];
 public static double deltaMin = 1e-9; 
-public static int Totaliteration = 10000;
-public static double Utility[][];  // long-term utility
-public static double Updating[][];
+public static int Totaliteration = 10;
+public double Utility[][]=new double[5][11];  // long-term utility
+public double Updating[][] = new double[5][11];
    
  public void intialMap(int PosX, int PosY){
      for(int i=0;i<5;i++){
@@ -37,38 +38,47 @@ public static double Updating[][];
  }
  
    public double Northmove(int Row, int column){
-         if (Row < 0){
-             return -1+ Utility[Row][column];
-         }else if((Row==0 && column ==3)||(Row==0 && column ==7)){
+       if((Row==0 && column ==3)||(Row==0 && column ==7)){
              return Utility[Row][column];
-         } 
-         return Utility[Row-1][column]; 
+          }
+         if (Row <= 0){
+             return -1+ Utility[Row][column];
+         }else{
+         return Utility[Row-1][column];
+         }
+         
    }
     public double Easthmove(int Row, int column){
-         if (column > 9){
-             return -1+ Utility[Row][column];
-         }else if((Row==0 && column ==3)||(Row==0 && column ==7)){
+          if((Row==0 && column ==3)||(Row==0 && column ==7)){
              return Utility[Row][column];
-         } 
-         return Utility[Row][column+2]; 
+          }
+         if (column >= 9){
+             return -1+ Utility[Row][column];
+         }else {
+         return Utility[Row][column+2];
+         }
    }
     
      public double Westmove(int Row, int column){
-         if (column < 1){
-             return -1+ Utility[Row][column];
-         }else if((Row==0 && column ==3)||(Row==0 && column ==7)){
+         if((Row==0 && column ==3)||(Row==0 && column ==7)){
              return Utility[Row][column];
-         } 
+          }
+         if (column <= 1){
+             return -1+ Utility[Row][column];
+         }else{
          return Utility[Row][column-2]; 
+         }
    }
      
       public double Southmove(int Row, int column){
-         if (Row > 4){
-             return -1+ Utility[Row][column];
-         }else if((Row==0 && column ==3)||(Row==0 && column ==7)){
+          if((Row==0 && column ==3)||(Row==0 && column ==7)){
              return Utility[Row][column];
-         } 
+          }
+         if (Row >= 4){
+             return -1+ Utility[Row][column];
+         }else{
          return Utility[Row+1][column]; 
+         }
    }
       
       public void  UpdateUtility(int Row,int column){
@@ -123,22 +133,30 @@ public static double Updating[][];
     }
     
     public void iteratepolicyonMap(){
-        for(int i=0;i<5;i++){
-            for(int j=1; j<11; j=+2){
-               char toDo = Policy[i][j];
-               if(toDo == 'N'){
-                   
-               }else if(toDo =='E'){
-                   
-               }else if(toDo == 'W'){
-                   
+         for(int i=0;i<5;i++){
+           for(int j=0;j<11;j++){
+               if(j%2 ==0){
+                  PolicyMap[i][j]='|';
                }else{
-                   
-               }
-            }
-        }
-        
-    }
+                   PolicyMap[i][j]=' ';
+               }              
+           }
+       }
+          for (int i=0; i<5;i++){
+           for(int j=1;j<11;j=j+2){
+              PolicyMap[i][j]=Policy[i][j]; 
+           } 
+       } 
+           for (int i=0; i<5;i++){
+           System.out.print("-----------\n");
+           for(int j=0;j<11;j++){
+               System.out.print(PolicyMap[i][j]); 
+           }
+           System.out.print("\n");
+       }
+       System.out.print("-----------\n");
+    }  
+   
     
     public void ValueIteration(){
        double delta =0;
@@ -159,14 +177,14 @@ public static double Updating[][];
            int iteration = 0;
            do{
            for(int k =0; k<5;k++){
-               for(int o=1; o<11; o=+2){
+               for(int o=1; o<11; o=o+2){
                    Utility[k][o]= Updating[k][o];
                }  
            }
            iteration++;
            delta = 0;
            for(int n=0; n<5;n++){
-               for(int f=1;f<11;f=+2){
+               for(int f=1;f<11;f=f+2){
                      UpdateUtility(n,f);
                     double diff = Math.abs(Updating[n][f] - Utility[n][f]);
                     if (diff > delta)
@@ -180,8 +198,8 @@ public static double Updating[][];
     public static void agentrun(){
         Agent a = new Agent();
         Random rand = new Random();
-        int PosX = rand.nextInt(5);
-        int PosY = rand.nextInt(11);
+        int PosX = rand.nextInt(4);
+        int PosY = rand.nextInt(10);
         if(PosY%2==0)
             PosY = PosY+1;
         
@@ -189,6 +207,9 @@ public static double Updating[][];
         System.out.println("First state of MAP");
         a.printmap();
         a.ValueIteration();
+        a.iteratepolicyonMap();
+        System.out.println("Finally");
+        //a.printmap();
         
     }
     
