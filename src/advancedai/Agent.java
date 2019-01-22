@@ -13,11 +13,12 @@ double gamma = 0.1;
 public char[][]Policy = new char[5][11];
 public int[][] Reward = new int[5][11];
 public static double deltaMin = 1e-9; 
-public static int Totaliteration = 10;
+public static int Totaliteration = 1000;
 public double Utility[][]=new double[5][11];  // long-term utility
 public double Updating[][] = new double[5][11];
    
  public void intialMap(int PosX, int PosY){
+     //This method is used for printing the first state of MAp
      for(int i=0;i<5;i++){
            for(int j=0;j<11;j++){
                if(j%2 ==0){
@@ -38,6 +39,7 @@ public double Updating[][] = new double[5][11];
  }
  
    public double Northmove(int Row, int column){
+       //North Move
        if((Row==0 && column ==3)||(Row==0 && column ==7)){
              return Utility[Row][column];
           }
@@ -49,6 +51,7 @@ public double Updating[][] = new double[5][11];
          
    }
     public double Easthmove(int Row, int column){
+        //East Move
           if((Row==0 && column ==3)||(Row==0 && column ==7)){
              return Utility[Row][column];
           }
@@ -60,6 +63,7 @@ public double Updating[][] = new double[5][11];
    }
     
      public double Westmove(int Row, int column){
+         //West Move
          if((Row==0 && column ==3)||(Row==0 && column ==7)){
              return Utility[Row][column];
           }
@@ -71,6 +75,7 @@ public double Updating[][] = new double[5][11];
    }
      
       public double Southmove(int Row, int column){
+          //South Move
           if((Row==0 && column ==3)||(Row==0 && column ==7)){
              return Utility[Row][column];
           }
@@ -82,7 +87,7 @@ public double Updating[][] = new double[5][11];
    }
       
       public void  UpdateUtility(int Row,int column){
-          
+          //updating the utility of each place in array
           double best=-1;
           int index = -1;
           double[] calculated = new double[4];
@@ -104,6 +109,11 @@ public double Updating[][] = new double[5][11];
           
           Updating[Row][column]= best*gamma + Reward[Row][column];
           
+          if(Row==0 && column ==3){
+              Policy[Row][column]='D';
+          }else if(Row==0 && column ==7){        // Moving to C and D
+              Policy[Row][column]='C';
+          }else{
           switch(index){
                   
               case 0:
@@ -119,9 +129,11 @@ public double Updating[][] = new double[5][11];
                   Policy[Row][column]='S';
                   break;          
           }
+          }
       }
     
     public void printmap(){  
+        //printing the map
        for (int i=0; i<5;i++){
            System.out.print("-----------\n");
            for(int j=0;j<11;j++){
@@ -133,6 +145,7 @@ public double Updating[][] = new double[5][11];
     }
     
     public void iteratepolicyonMap(){
+        //printing the Policy based on Map position
          for(int i=0;i<5;i++){
            for(int j=0;j<11;j++){
                if(j%2 ==0){
@@ -159,6 +172,7 @@ public double Updating[][] = new double[5][11];
    
     
     public void ValueIteration(){
+        //Value Iteration is used for defining the policy
        double delta =0;
        for(int i=0;i<5;i++){
            for(int j=1;j<11;j=j+2){
@@ -196,19 +210,23 @@ public double Updating[][] = new double[5][11];
        }
     }
     public static void agentrun(){
+        //Agent running
         Agent a = new Agent();
         Random rand = new Random();
         int PosX = rand.nextInt(4);
         int PosY = rand.nextInt(10);
         if(PosY%2==0)
             PosY = PosY+1;
-        
+        if((PosX == 0 && PosY==7) ||(PosX == 0 && PosY==3)){
+            PosX = 4;
+            PosY = 1;
+        }
         a.intialMap(PosX, PosY);
         System.out.println("First state of MAP");
         a.printmap();
         a.ValueIteration();
-        a.iteratepolicyonMap();
         System.out.println("Finally");
+        a.iteratepolicyonMap();
         //a.printmap();
         
     }
