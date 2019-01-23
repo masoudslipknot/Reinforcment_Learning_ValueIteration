@@ -11,6 +11,7 @@ current movement might be done with 0.2 probablity. If any action causes that ag
 <h3> Result: </h3>
 Result is an 2d array in which state the policy is stated. It means that if agent is in that state it is recommend that it follows the policy.
 <h3> Policy Map </h3>
+This is the policy map when the reward value for going out of map is -1 and gamma parameter is 0.1.
 ------------</br>
 |E|D|W|C|W|</br>
 ------------</br>
