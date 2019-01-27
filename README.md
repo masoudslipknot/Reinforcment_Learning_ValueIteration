@@ -24,6 +24,31 @@ According to the Belman equation, if you increase the gamma parameter then it wi
 ------------</br>
 |N|N|N|N|N|</br>
 ------------</br>
+Then the policy map when the reward value for going out og map is 10. </br>
+-----------</br>
+|E|D|W|C|W|</br>
+-----------</br>
+|E|N|W|N|W|</br>
+-----------</br>
+|E|N|N|N|W|</br>
+-----------</br>
+|E|N|N|N|W|</br>
+-----------</br>
+|N|N|N|N|N|</br>
+-----------</br>
+and when the reward value for going out of map is 0 the policy map is defined as below: </br>
+-----------</br>
+|E|D|W|C|W|</br>
+-----------</br>
+|N|N|N|N|N|</br>
+-----------</br>
+|N|N|N|N|N|</br>
+-----------</br>
+|N|N|N|N|N|</br>
+-----------</br>
+|N|N|N|N|N|</br>
+-----------</br>
+
 <h3> Algorithm : </h3>
 For developing this project Reinforcment Learning is used and Dynamic Programming which is one RL algorithm is implemented.
 For defining the Policy we used Vale Iteration. </br>
