@@ -13,6 +13,7 @@ Result is an 2d array in which state the policy is stated. It means that if agen
 <h3> Policy Map </h3>
 This is the policy map when the reward value for going out of map is -1 and gamma parameter is 0.1. 
 According to the Belman equation, if you increase the gamma parameter then it will take longer for the algorithm to converge.</br>
+And, we will have larger values for Utilities. gamma parameter's duty is to elimiate the future and computation.</br>
 ------------</br>
 |E|D|W|C|W|</br>
 ------------</br>
