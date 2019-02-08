@@ -66,6 +66,7 @@ This method pritns tha map. </br>
 In this method Value Iteration algorithm is implemented. </br>
 6 - public static void agentrun(): </br>
 Finally in this method we first generate a random position for current Agent place. And we run the algorithm. </br>
+7- Value of Discount factor can be easily changed in code.</br>
 
 <h2> Author:</h2>
 Masoud Erfani </br>
